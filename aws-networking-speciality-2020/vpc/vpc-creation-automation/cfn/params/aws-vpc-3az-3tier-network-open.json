@@ -1,0 +1,106 @@
+[
+    {
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
+    },
+    {
+        "ParameterKey": "NumberOfAZs",
+        "ParameterValue": "3"
+    },
+    {
+        "ParameterKey": "PublicSubnet1ACIDR",
+        "ParameterValue": "10.0.1.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1BCIDR",
+        "ParameterValue": "10.0.2.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CCIDR",
+        "ParameterValue": "10.0.3.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag1",
+        "ParameterValue": "Network=Public"
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag2",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag3",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "CreatePrivateSubnets1",
+        "ParameterValue": "true"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1ACIDR",
+        "ParameterValue": "10.0.4.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1BCIDR",
+        "ParameterValue": "10.0.5.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1CCIDR",
+        "ParameterValue": "10.0.6.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1Tag1",
+        "ParameterValue": "Network=Private1"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1Tag2",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "PrivateSubnet1Tag3",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "CreatePrivateSubnets2",
+        "ParameterValue": "true"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2ACIDR",
+        "ParameterValue": "10.0.7.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2BCIDR",
+        "ParameterValue": "10.0.8.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2CCIDR",
+        "ParameterValue": "10.0.9.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2Tag1",
+        "ParameterValue": "Network=Private2"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2Tag1",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "PrivateSubnet2Tag1",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "NetworkRestrictedPublic",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "NetworkRestrictedPrivate",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "VPCTenancy",
+        "ParameterValue": "default"
+    }
+]

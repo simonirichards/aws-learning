@@ -1,0 +1,58 @@
+[
+    {
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
+    },
+    {
+        "ParameterKey": "NumberOfAZs",
+        "ParameterValue": "3"
+    },
+    {
+        "ParameterKey": "PublicSubnet1ACIDR",
+        "ParameterValue": "10.0.1.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1BCIDR",
+        "ParameterValue": "10.0.2.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CCIDR",
+        "ParameterValue": "10.0.3.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag1",
+        "ParameterValue": "Network=Public"
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag2",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "PublicSubnet1Tag3",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "CreatePrivateSubnets1",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "CreatePrivateSubnets2",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "NetworkRestrictedPublic",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "NetworkRestrictedPrivate",
+        "ParameterValue": "false"
+    },
+    {
+        "ParameterKey": "VPCTenancy",
+        "ParameterValue": "default"
+    }
+]
