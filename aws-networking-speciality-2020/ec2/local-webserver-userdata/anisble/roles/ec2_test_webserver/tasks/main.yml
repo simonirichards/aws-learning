@@ -1,0 +1,4 @@
+---
+- name: Debug Message
+  debug:
+    msg: "Executing Steps for ec2_test_webserver role"
