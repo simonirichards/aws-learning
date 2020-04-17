@@ -41,6 +41,22 @@
         <td><strong>Instance Type</strong></td>
         <td>{{ ec2_instance_type.stdout }}</td>
     </tr>
+    <tr>
+        <td><strong>VPC ID</strong></td>
+        <td>{{ ec2_eth0_vpc_id.stdout }}</td>
+    </tr>
+    <tr>
+        <td><strong>VPC CIDR</strong></td>
+        <td>{{ ec2_eth0_vpc_cdir_block.stdout }}</td>
+    </tr>
+    <tr>
+        <td><strong>Subnet ID</strong></td>
+        <td>{{ ec2_eth0_subnet_id.stdout }}</td>
+    </tr>
+    <tr>
+        <td><strong>Subnet CIDR</strong></td>
+        <td>{{ ec2_eth0_subnet_cdir_block.stdout }}</td>
+    </tr>
 </table>
 </p>
 

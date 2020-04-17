@@ -52,6 +52,27 @@
   command: "curl http://169.254.169.254/latest/meta-data/instance-type"
   register: ec2_instance_type
 
+- name: Grab the MAC id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/mac"
+  register: ec2_eth0_mac
+
+- name: Grab the VPC id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/vpc-id"
+  register: ec2_eth0_vpc_id
+
+- name: Grab the VPC CIDR of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/vpc-ipv4-cidr-block"
+  register: ec2_eth0_vpc_cdir_block
+
+- name: Grab the Subnet id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/subnet-id"
+  register: ec2_eth0_subnet_id
+
+- name: Grab the Subnet CIDR of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/subnet-ipv4-cidr-block"
+  register: ec2_eth0_subnet_cdir_block
+
+
 - name: Copy page to dest
   template: 
     src: "../templates/index.html.j2"
