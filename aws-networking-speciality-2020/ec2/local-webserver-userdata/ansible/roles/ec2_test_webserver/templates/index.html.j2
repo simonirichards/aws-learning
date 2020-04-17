@@ -1,30 +1,48 @@
 <html>
 <body>
 
-<h1>EC2 WebServer - {{ ec2_az.stdout }} - {{ ec2_region.stdout }}</h1>
+<h1>EC2 WebServer - Availability Zone:{{ ec2_az.stdout }} - Region: {{ ec2_region.stdout }}</h1>
 
+<p>
 <table border="1">
     <tr>
         <td><strong>Local IP</strong></td>
         <td>{{ ec2_local_ip.stdout }}</td>
     </tr>
     <tr>
+        <td><strong>Local Hostname</strong></td>
+        <td>{{ ec2_local_hostname.stdout }}</td>
+    </tr>
+    <tr>
         <td><strong>Public IP</strong></td>
         <td>{{ ec2_public_ip.stdout }}</td>
+    </tr>
+    <tr>
+        <td><strong>Public Hostname</strong></td>
+        <td>{{ ec2_public_hostname.stdout }}</td>
     </tr>
     <tr>
         <td><strong>Region</strong></td>
         <td>{{ ec2_region.stdout }}</td>
     </tr>
     <tr>
-        <td><strong>Local IP</strong></td>
+        <td><strong>Availability Zone</strong></td>
         <td>{{ ec2_az.stdout }}</td>
     </tr>
     <tr>
         <td><strong>AMI</strong></td>
         <td>{{ ec2_ami.stdout }}</td>
     </tr>
+    <tr>
+        <td><strong>Instance ID</strong></td>
+        <td>{{ ec2_instance_id.stdout }}</td>
+    </tr>
+    <tr>
+        <td><strong>Instance Type</strong></td>
+        <td>{{ ec2_instance_type.stdout }}</td>
+    </tr>
 </table>
+</p>
 
 </body>
 </html>
