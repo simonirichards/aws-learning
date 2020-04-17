@@ -1,0 +1,89 @@
+---
+- name: Debug Message
+  debug:
+    msg: "Executing Steps for ec2_test_webserver role"
+
+- name: install the latest version of Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - httpd
+    - httpd-tools
+
+- name: Register Current AZ
+  command: "curl http://169.254.169.254/latest/meta-data/placement/availability-zone"
+  register: ec2_az
+
+- name: Register Current Local IP
+  command: "curl http://169.254.169.254/latest/meta-data/local-ipv4"
+  register: ec2_local_ip
+
+- name: Register Current local-hostname
+  command: "curl http://169.254.169.254/latest/meta-data/local-hostname"
+  register: ec2_local_hostname
+
+- name: Register Current Public IP
+  command: "curl http://169.254.169.254/latest/meta-data/public-ipv4"
+  register: ec2_public_ip
+
+- name: Register Current public-hostname
+  command: "curl http://169.254.169.254/latest/meta-data/public-hostname"
+  register: ec2_public_hostname
+
+- name: Register Current AMI
+  command: "curl http://169.254.169.254/latest/meta-data/ami-id"
+  register: ec2_ami
+
+- name: Register Current Region
+  shell: 'curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone | sed ''s/[a-z]$//'''
+  register: ec2_region
+  
+- name: Register Current Instance ID
+  command: "curl http://169.254.169.254/latest/meta-data/instance-id"
+  register: ec2_instance_id
+
+- name: Register Current Instance Type
+  command: "curl http://169.254.169.254/latest/meta-data/instance-type"
+  register: ec2_instance_type
+
+- name: Grab the MAC id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/mac"
+  register: ec2_eth0_mac
+
+- name: Grab the VPC id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/vpc-id"
+  register: ec2_eth0_vpc_id
+
+- name: Grab the VPC CIDR of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/vpc-ipv4-cidr-block"
+  register: ec2_eth0_vpc_cdir_block
+
+- name: Grab the Subnet id of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/subnet-id"
+  register: ec2_eth0_subnet_id
+
+- name: Grab the Subnet CIDR of the eth0 interface
+  command: "curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/{{ ec2_eth0_mac.stdout }}/subnet-ipv4-cidr-block"
+  register: ec2_eth0_subnet_cdir_block
+
+
+- name: Copy page to dest
+  template: 
+    src: "../templates/index.html.j2"
+    dest: "/var/www/html/index.html"
+
+- name: Start service httpd, if not started
+  service:
+    name: httpd
+    state: started
+
+- name: Enable service httpd, and not touch the state
+  service:
+    name: httpd
+    enabled: yes
