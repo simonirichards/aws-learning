@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sudo yum install -y git-core
+sudo amazon-linux-extras install ansible2
+## Set Ansible to run locally
+sudo echo "localhost ansible_connection=local" | sudo tee /etc/ansible/hosts
+mkdir ~/git
+git clone --single-branch --branch dev-simonirichards-ec2-userdata-ansible --depth 1 https://github.com/simonirichards/aws-learning.git ~/git
+mkdir ~/ansible
+mv ~/git/aws-networking-speciality-2020/ec2/local-webserver-userdata/ansible ~/ansible
+rm -rf ~/git
+cd ~/ansible
+rm -rf .git*
+# Clone copy the required file
+ansible-playbook ./ping.yml
