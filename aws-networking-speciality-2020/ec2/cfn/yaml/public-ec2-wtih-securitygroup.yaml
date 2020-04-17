@@ -1,0 +1,182 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS CloudFormation for EC2 Instance'
+Parameters:
+    KeyName:
+        Description: 'Name of an existing EC2 KeyPair to enable SSH access to the instance'
+        Type: 'AWS::EC2::KeyPair::KeyName'
+        ConstraintDescription: 'must be the name of an existing EC2 KeyPair.'
+    InstanceType:
+        Description: 'EC2 instance type'
+        Type: String
+        Default: t2.micro
+        AllowedValues:
+            - t2.micro
+        ConstraintDescription: 'must be a valid EC2 instance type.'
+    SourceCIDRRange:
+        Description: 'The IP address range that can be used to SSH/HTTP to the EC2 instances'
+        Type: String
+        MinLength: '9'
+        MaxLength: '18'
+        Default: 0.0.0.0/0
+        AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+        ConstraintDescription: 'must be a valid IP CIDR range of the form x.x.x.x/x.'
+    TargetSubnetID:
+        Description: "Target subnet to place the instance into"
+        Type: 'AWS::EC2::Subnet::Id'
+    TargetVPCID:
+        Description: "Target VPC"
+        Type: 'AWS::EC2::VPC::Id'
+    AMI:
+        Description: "AMI to use"
+        Type: String
+        Default: ami-0970010f37c4f9c8d
+    EC2Tag1:
+      AllowedPattern: ^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\"'\[\]\{\}]*)?$
+      ConstraintDescription: tags must be in format "Key=Value" keys can only contain
+        [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\"'\[\]\{\}]
+      Default: ''
+      Description: tag to add to private subnets 2, in format Key=Value (Optional)
+      Type: String
+    EC2Tag2:
+      AllowedPattern: ^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\"'\[\]\{\}]*)?$
+      ConstraintDescription: tags must be in format "Key=Value" keys can only contain
+        [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\"'\[\]\{\}]
+      Default: ''
+      Description: tag to add to private subnets 2, in format Key=Value (Optional)
+      Type: String
+    EC2Tag3:
+      AllowedPattern: ^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\"'\[\]\{\}]*)?$
+      ConstraintDescription: tags must be in format "Key=Value" keys can only contain
+        [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\"'\[\]\{\}]
+      Default: ''
+      Description: tag to add to private subnets 2, in format Key=Value (Optional)
+      Type: String
+Conditions:
+  EC2Tag1Condition: !Not 
+    - !Equals
+      - !Ref 'EC2Tag1'
+      - ''
+  EC2Tag2Condition: !Not
+    - !Equals
+      - !Ref 'EC2Tag2'
+      - ''
+  EC2Tag3Condition: !Not
+    - !Equals
+      - !Ref 'EC2Tag3'
+      - ''
+Resources:
+    EC2Instance:
+        Type: 'AWS::EC2::Instance'
+        Properties:
+            InstanceType:
+                Ref: InstanceType
+            SecurityGroupIds:
+                -
+                    Ref: InstanceSecurityGroup
+            KeyName:
+                Ref: KeyName
+            ImageId: 
+                Ref: AMI
+            SubnetId: 
+                Ref: TargetSubnetID
+            Tags:
+              - !If
+                - EC2Tag1Condition
+                - Key: !Select
+                    - '0'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag1'
+                  Value: !Select
+                    - '1'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag1'
+                - !Ref 'AWS::NoValue'
+              - !If
+                - EC2Tag2Condition
+                - Key: !Select
+                    - '0'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag2'
+                  Value: !Select
+                    - '1'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag2'
+                - !Ref 'AWS::NoValue'
+              - !If
+                - EC2Tag2Condition
+                - Key: !Select
+                    - '0'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag3'
+                  Value: !Select
+                    - '1'
+                    - !Split
+                      - '='
+                      - !Ref 'EC2Tag3'
+                - !Ref 'AWS::NoValue'
+            UserData:
+              Fn::Base64: !Sub |
+                #!/bin/bash -xe
+                sudo yum -y update
+                sudo yum update -y aws-cfn-bootstrap
+                sudo yum install -y git-core
+                sudo amazon-linux-extras install ansible2
+                sudo echo "localhost ansible_connection=local" | sudo tee /etc/ansible/hosts
+                mkdir /home/ec2-user/git
+                git clone --single-branch --branch dev-simonirichards-ec2-userdata-ansible --depth 1 https://github.com/simonirichards/aws-learning.git /home/ec2-user/git
+                mkdir /home/ec2-user/ansible
+                mv /home/ec2-user/git/aws-networking-speciality-2020/ec2/local-webserver-userdata/ansible/* /home/ec2-user/ansible
+                rm -rf /home/ec2-user/git
+                cd /home/ec2-user/ansible
+                rm -rf .git*
+                # Clone copy the required file
+                ansible-playbook ./test-webserver.yml
+
+                /bin/cfn-signal --success true --stack ${AWS::StackName} --region ${AWS::Region} --resource 'EC2Instance'
+     
+     
+    InstanceSecurityGroup:
+        Type: 'AWS::EC2::SecurityGroup'
+        Properties:
+            GroupDescription: 'Basic Security Group to allow 22 and 80'
+            SecurityGroupIngress:
+                -
+                    IpProtocol: tcp
+                    FromPort: '22'
+                    ToPort: '22'
+                    CidrIp: {Ref: SourceCIDRRange}
+                -
+                    IpProtocol: tcp
+                    FromPort: '80'
+                    ToPort: '80'
+                    CidrIp: {Ref: SourceCIDRRange}
+            VpcId: 
+              Ref: TargetVPCID
+Outputs:
+    InstanceId:
+        Description: 'InstanceId of the newly created EC2 instance'
+        Value:
+            Ref: EC2Instance
+    AZ:
+        Description: 'Availability Zone of the newly created EC2 instance'
+        Value:
+            'Fn::GetAtt':
+                - EC2Instance
+                - AvailabilityZone
+    PublicDNS:
+        Description: 'Public DNSName of the newly created EC2 instance'
+        Value:
+            'Fn::GetAtt':
+                - EC2Instance
+                - PublicDnsName
+    PublicIP:
+        Description: 'Public IP address of the newly created EC2 instance'
+        Value:
+            'Fn::GetAtt':
+                - EC2Instance
+                - PublicIp

@@ -20,11 +20,11 @@ Create a multi-az, multi-tier (Public and Private Subnets) VPC that could be use
 # How to crate a new VPC - Example
 
 ``` 
-aws cloudformation create-stack --profile "Update Profile to use" --stack-name "Stack Name To Deploy" --template-body file://"Path to repo"/aws-networking-speciality-2020/vpc/vpc-creation-automation/cfn/yaml/aws-vpc.template.yaml --parameters file://"Path to repo"/aws-networking-speciality-2020/vpc/vpc-creation-automation/cfn/params/aws-vpc-3az-3tier-network-open.json
+aws cloudformation create-stack --profile "update-me" --stack-name "update-me" --template-body file://"update-me"/aws-vpc.template.yaml --parameters file://"update-me"/aws-vpc-3az-1tier-network-open.json
 ```
 
 # How to cleanup once you're done
 
 ``` 
-aws cloudformation delete-stack --profile "Update Profile to use" --stack-name "Stack that has been deployed"
+aws cloudformation delete-stack --profile "update-me" --stack-name "update-me"
 ```

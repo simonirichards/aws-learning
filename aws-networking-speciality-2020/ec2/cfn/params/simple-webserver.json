@@ -1,0 +1,38 @@
+[
+    {
+        "ParameterKey": "KeyName",
+        "ParameterValue": "ec2-testing-ansible"
+    },
+    {
+        "ParameterKey": "InstanceType",
+        "ParameterValue": "t2.micro"
+    },
+    {
+        "ParameterKey": "SourceCIDRRange",
+        "ParameterValue": "0.0.0.0/0"
+    },
+    {
+        "ParameterKey": "TargetSubnetID",
+        "ParameterValue": "subnet-0a209f62db77cd6da"
+    },
+    {
+        "ParameterKey": "AMI",
+        "ParameterValue": "ami-0970010f37c4f9c8d"
+    },
+    {
+        "ParameterKey": "TargetVPCID",
+        "ParameterValue": "vpc-000aa4ea84dc9b4e8"
+    },
+    {
+        "ParameterKey": "EC2Tag1",
+        "ParameterValue": "Name=Example-Webserver"
+    },
+    {
+        "ParameterKey": "EC2Tag2",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "EC2Tag3",
+        "ParameterValue": ""
+    }
+]
