@@ -33,7 +33,7 @@
   register: ec2_ami
 
 - name: Register Current Region
-  command: "curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone | sed ''s/[a-z]$//''"
+  command: 'curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone | sed ''s/[a-z]$//'''
   register: ec2_region
   
 - name: Copy page to dest
