@@ -16,10 +16,6 @@
     - httpd
     - httpd-tools
 
-- name: Register Current Region
-  command: "curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone |  sed 's/[a-z]$//'"
-  register: ec2_region
-
 - name: Register Current AZ
   command: "curl http://169.254.169.254/latest/meta-data/placement/availability-zone"
   register: ec2_az
@@ -35,6 +31,10 @@
 - name: Register Current AMI
   command: "curl http://169.254.169.254/latest/meta-data/ami-id"
   register: ec2_ami
+
+  - name: Register Current Region
+  command: "curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone | sed \'s/[a-z]$//\'"
+  register: ec2_region
 
 - name: Copy page to dest
   template: src=../templates/index.html.j2 dest=/var/www/html
