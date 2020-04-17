@@ -2,3 +2,49 @@
 - name: Debug Message
   debug:
     msg: "Executing Steps for ec2_test_webserver role"
+
+- name: install the latest version of Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - httpd
+    - httpd-tools
+
+- name: Register Current Region
+  command: "curl -fsq http://169.254.169.254/latest/meta-data/placement/availability-zone |  sed 's/[a-z]$//'"
+  register: ec2_region
+
+- name: Register Current AZ
+  command: "curl http://169.254.169.254/latest/meta-data/placement/availability-zone"
+  register: ec2_az
+
+- name: Register Current Local IP
+  command: "curl http://169.254.169.254/latest/meta-data/local-ipv4"
+  register: ec2_local_ip
+
+- name: Register Current Public IP
+  command: "curl http://169.254.169.254/latest/meta-data/public-ipv4"
+  register: ec2_public_ip
+
+- name: Register Current AMI
+  command: "curl http://169.254.169.254/latest/meta-data/ami-id"
+  register: ec2_ami
+
+- name: Copy page to dest
+  template: src=../templates/index.html.j2 dest=/var/www/html
+
+- name: Start service httpd, if not started
+  service:
+    name: httpd
+    state: started
+
+- name: Enable service httpd, and not touch the state
+  service:
+    name: httpd
+    enabled: yes

@@ -1,0 +1,30 @@
+<html>
+<body>
+
+<h1>EC2 WebServer - {{ ec2_az }} - {{ ec2_region }}</h1>
+
+<table border="1">
+    <tr>
+        <td><strong>Local IP</strong></td>
+        <td>{{ ec2_local_ip }}</td>
+    </tr>
+    <tr>
+        <td><strong>Public IP</strong></td>
+        <td>{{ ec3_public_ip }}</td>
+    </tr>
+    <tr>
+        <td><strong>Region</strong></td>
+        <td>{{ ec2_region }}</td>
+    </tr>
+    <tr>
+        <td><strong>Local IP</strong></td>
+        <td>{{ ec2_az }}</td>
+    </tr>
+    <tr>
+        <td><strong>AMI</strong></td>
+        <td>{{ ec2_ami }}</td>
+    </tr>
+</table>
+
+</body>
+</html>
