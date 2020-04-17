@@ -37,7 +37,7 @@
   register: ec2_region
   
 - name: Copy page to dest
-  template: src=../templates/index.html.j2 dest=/var/www/html
+  template: src=../templates/index.html.j2 dest=/var/www/html/index.html
 
 - name: Start service httpd, if not started
   service:

@@ -1,28 +1,28 @@
 <html>
 <body>
 
-<h1>EC2 WebServer - {{ ec2_az }} - {{ ec2_region }}</h1>
+<h1>EC2 WebServer - {{ ec2_az.stdout }} - {{ ec2_region.stdout }}</h1>
 
 <table border="1">
     <tr>
         <td><strong>Local IP</strong></td>
-        <td>{{ ec2_local_ip }}</td>
+        <td>{{ ec2_local_ip.stdout }}</td>
     </tr>
     <tr>
         <td><strong>Public IP</strong></td>
-        <td>{{ ec2_public_ip }}</td>
+        <td>{{ ec2_public_ip.stdout }}</td>
     </tr>
     <tr>
         <td><strong>Region</strong></td>
-        <td>{{ ec2_region }}</td>
+        <td>{{ ec2_region.stdout }}</td>
     </tr>
     <tr>
         <td><strong>Local IP</strong></td>
-        <td>{{ ec2_az }}</td>
+        <td>{{ ec2_az.stdout }}</td>
     </tr>
     <tr>
         <td><strong>AMI</strong></td>
-        <td>{{ ec2_ami }}</td>
+        <td>{{ ec2_ami.stdout }}</td>
     </tr>
 </table>
 
